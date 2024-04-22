@@ -1,0 +1,23 @@
+[
+  {
+    "firstName": "Berke",
+    "lastName": "Holburn",
+    "dateOfBirth": "2005-08-17",
+    "gender": "M",
+    "UserId": 1
+  },
+  {
+    "firstName": "Addi",
+    "lastName": "Downey",
+    "dateOfBirth": "2001-10-19",
+    "gender": "F",
+    "UserId": 2
+  },
+  {
+    "firstName": "Christi",
+    "lastName": "Gogie",
+    "dateOfBirth": "2003-06-02",
+    "gender": "F",
+    "UserId": 3
+  }
+]
