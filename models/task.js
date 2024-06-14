@@ -9,17 +9,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Task.belongsTo(models.User, { foreignKey: "user_id" });
+      Task.belongsTo(models.User);
     }
   }
-
   Task.init(
     {
       title: DataTypes.STRING,
       status: DataTypes.BOOLEAN,
       deadline: DataTypes.DATE,
       priority: DataTypes.STRING,
-      user_id: DataTypes.INTEGER,
     },
     {
       sequelize,

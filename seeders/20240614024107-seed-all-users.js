@@ -3,12 +3,12 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    const data = require("../data/users.json").map((el) => {
+    const data = require("../data/users.json");
+    data.forEach((el) => {
       delete el.password;
-      el.createdAt = el.updatedAt = new Date();
-      return el;
+      el.createdAt = new Date();
+      el.updatedAt = new Date();
     });
-
     await queryInterface.bulkInsert("Users", data);
   },
 

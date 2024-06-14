@@ -1,2 +1,0 @@
-sequelize model:create --name UserProfile --attributes firstName:s
-tring,lastName:string,dateOfBirth:date,gender:string,UserId:integer

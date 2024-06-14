@@ -2,49 +2,24 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
-const { User, UserProfile, Task, sequelize } = require("./models");
-
-sequelize.addHook("beforeCreate", (instance) => {
-  console.log(
-    "Ini akan dipanggil setiap kali melakukan insert data di model apapun"
-  );
-});
+const { User, UserProfile, Task } = require("./models");
 
 app.get("/", async (req, res) => {
+  const { id } = req.query;
   try {
-    const data = await User.findAll();
-    res.json(data);
-  } catch (error) {
-    res.send(error.message);
-    console.log(error);
-  }
-});
+    const user = await User.findByPk(id, {
+      include: ["Profile", Task], // eager loading
+    });
 
-app.get("/register", async (req, res) => {
-  try {
-    const newUser = {
-      username: "user8",
-      email: "user8@mail.com",
-      password: "rahasia",
-    };
-
-    const user = await User.create(newUser);
-    res.json(user);
-  } catch (error) {
-    res.send(error.message);
-    console.log(error);
-  }
-});
-
-app.get("/remove/:id", async (req, res) => {
-  try {
-    // const result = await User.destroy({
-    //   where: { id: req.params.id },
-    //   individualHooks: true,
+    console.log(user);
+    // const profile = await UserProfile.findOne({
+    //   where: {
+    //     UserId: user.id,
+    //   },
     // });
-    const user = await User.findByPk(req.params.id);
-    await user.destroy();
-    res.json(user);
+    // const profile = await user.getUserProfile(); // lazy loading
+    // const tasks = await user.getTasks();
+    res.send(user);
   } catch (error) {
     res.send(error.message);
     console.log(error);
@@ -52,5 +27,5 @@ app.get("/remove/:id", async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Running on port ${port}`);
+  console.log(`Example app listening on port ${port}`);
 });

@@ -24,7 +24,7 @@ module.exports = {
       priority: {
         type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: "LOW",
+        defaultValue: "L",
       },
       createdAt: {
         allowNull: false,

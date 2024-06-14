@@ -14,8 +14,7 @@ module.exports = {
         allowNull: false,
       },
       lastName: {
-        type: Sequelize.STRING(30),
-        allowNull: true,
+        type: "VARCHAR(30)",
       },
       dateOfBirth: {
         type: Sequelize.DATE,
@@ -25,7 +24,7 @@ module.exports = {
         type: "CHAR(1)",
         allowNull: false,
       },
-      UserId: {
+      userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         unique: true,

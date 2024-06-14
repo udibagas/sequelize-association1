@@ -29,7 +29,7 @@ fs.readdirSync(__dirname)
       file.slice(-3) === ".js" &&
       file.indexOf(".test.js") === -1
     );
-  })
+  }) // ["task.js", "user.js", "userprofile.js"]
   .forEach((file) => {
     const model = require(path.join(__dirname, file))(
       sequelize,
@@ -37,8 +37,8 @@ fs.readdirSync(__dirname)
     );
     db[model.name] = model;
   });
+// db = {Task, User, UserProfile}
 
-// db = { Task, User, UserProfile }
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
@@ -47,5 +47,6 @@ Object.keys(db).forEach((modelName) => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+// db = {Task, User, UserProfile, sequelize, Sequelize}
 
 module.exports = db;
