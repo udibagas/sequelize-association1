@@ -21,6 +21,10 @@ if (config.use_env_variable) {
   );
 }
 
+sequelize.addHook("beforeCreate", (instance) => {
+  console.log(`Global hook`);
+});
+
 fs.readdirSync(__dirname) // ['index.js', 'task.js', 'user.js', 'userprofile.js']
   .filter((file) => {
     return (

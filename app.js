@@ -3,6 +3,7 @@ const app = express();
 const port = 3000;
 const { User, Task, UserProfile, sequelize } = require("./models");
 const { Op } = require("sequelize");
+const { hashSync, compareSync } = require("bcrypt");
 
 app.get("/", async (req, res) => {
   try {
@@ -55,29 +56,8 @@ app.get("/", async (req, res) => {
 
 app.get("/summary", async (req, res) => {
   try {
-    // const count = await Task.count();
-    // const min = await Task.min("deadline");
-    // const max = await Task.max("deadline");
-    // console.log({ count, min, max });
-    // res.json({ count, min, max });
-
-    const summary = await Task.findOne({
-      raw: true,
-      attributes: [
-        [sequelize.fn("COUNT", sequelize.col("*")), "count"],
-        [sequelize.fn("MIN", sequelize.col("deadline")), "min"],
-        [
-          sequelize.fn(
-            "DATE_PART",
-            "year",
-            sequelize.fn("MAX", sequelize.col("deadline"))
-          ),
-          "max",
-        ],
-      ],
-    });
-    console.log(summary);
-    res.send(summary);
+    const summary = await Task.summary();
+    res.json(summary);
   } catch (error) {
     console.log(error.stack);
     res.send(error.message);
@@ -103,6 +83,67 @@ app.get("/tasks", async (req, res) => {
     res.json(tasks);
   } catch (error) {
     console.log(error.stack);
+    res.send(error.message);
+  }
+});
+
+app.get("/register", async (req, res) => {
+  try {
+    // req.body
+    const data = {
+      email: "user10@mail.com",
+      username: "user10",
+      password: "rahasia",
+    };
+
+    const newUser = await User.create(data);
+    res.json(newUser);
+  } catch (error) {
+    console.log(error);
+    res.send(error.message);
+  }
+});
+
+app.get("/change-password/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    // const data = await User.update(
+    //   { password: "secret" },
+    //   {
+    //     where: { id },
+    //     returning: true,
+    //     individualHooks: true,
+    //   }
+    // );
+    const user = await User.findByPk(id);
+    await user.update({ password: "secret" });
+    res.json(user);
+  } catch (error) {
+    console.log(error);
+    res.send(error.message);
+  }
+});
+
+app.get("/login", async (req, res) => {
+  const credential = {
+    email: "user1@mail.com",
+    password: "secretdqwdw",
+  };
+
+  try {
+    const user = await User.findOne({ where: { email: credential.email } });
+
+    if (!user) {
+      throw new Error("Invalid email or password");
+    }
+
+    if (!compareSync(credential.password, user.password)) {
+      throw new Error("Invalid email or password");
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.log(error);
     res.send(error.message);
   }
 });

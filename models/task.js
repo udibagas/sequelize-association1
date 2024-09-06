@@ -1,10 +1,21 @@
 "use strict";
-const { Model } = require("sequelize");
+const { Model, col, fn } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Task extends Model {
     static associate(models) {
       // models = { Task: Task, User: User, UserProfile: UserProfile }
-      // Task.belongsTo(models.User);
+      Task.belongsTo(models.User);
+    }
+
+    static summary() {
+      return Task.findOne({
+        // raw: true,
+        attributes: [
+          [fn("COUNT", col("*")), "count"],
+          [fn("MIN", col("deadline")), "min"],
+          [fn("DATE_PART", "year", fn("MAX", col("deadline"))), "max"],
+        ],
+      });
     }
   }
 
