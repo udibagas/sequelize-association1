@@ -4,10 +4,11 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     const data = require("../data/profiles.json");
+
     data.forEach((el) => {
-      el.createdAt = new Date();
-      el.updatedAt = new Date();
+      delete el.password;
     });
+
     await queryInterface.bulkInsert("UserProfiles", data);
   },
 

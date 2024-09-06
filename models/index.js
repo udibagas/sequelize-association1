@@ -21,7 +21,7 @@ if (config.use_env_variable) {
   );
 }
 
-fs.readdirSync(__dirname)
+fs.readdirSync(__dirname) // ['index.js', 'task.js', 'user.js', 'userprofile.js']
   .filter((file) => {
     return (
       file.indexOf(".") !== 0 &&
@@ -29,24 +29,24 @@ fs.readdirSync(__dirname)
       file.slice(-3) === ".js" &&
       file.indexOf(".test.js") === -1
     );
-  }) // ["task.js", "user.js", "userprofile.js"]
+  }) // ['task.js', 'user.js', 'userprofile.js']
   .forEach((file) => {
     const model = require(path.join(__dirname, file))(
       sequelize,
       Sequelize.DataTypes
     );
-    db[model.name] = model;
+
+    db[model.name] = model; // db = { Task: Task }
+  }); //  db  = { Task: Task, User: User, UserProfile: UserProfile }
+
+Object.keys(db) // [Task, User, UserProfile ]
+  .forEach((modelName) => {
+    if (db[modelName].associate) {
+      db[modelName].associate(db); // Task.associate({ Task: Task, User: User, UserProfile: UserProfile })
+    }
   });
-// db = {Task, User, UserProfile}
 
-Object.keys(db).forEach((modelName) => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-});
+db.sequelize = sequelize; // instance
+db.Sequelize = Sequelize; // Class
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
-// db = {Task, User, UserProfile, sequelize, Sequelize}
-
-module.exports = db;
+module.exports = db; // { Task, User, UserProfile, sequelize, Sequelize }

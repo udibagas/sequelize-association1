@@ -1,0 +1,12 @@
+- npm init -y
+- npm i pg sequelize express ejs
+- npm i -D sequelize-cli nodemon
+- npx sequelize init
+- sesuaikan config
+- create db
+- create model
+- create migration
+- app.js
+- routes
+- controller
+- view

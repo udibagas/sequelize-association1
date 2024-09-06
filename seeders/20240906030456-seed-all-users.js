@@ -3,15 +3,16 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    const data = require("../data/tasks.json");
+    const data = require("../data/users.json");
+
     data.forEach((el) => {
-      el.createdAt = new Date();
-      el.updatedAt = new Date();
+      delete el.password;
     });
-    await queryInterface.bulkInsert("Tasks", data);
+
+    await queryInterface.bulkInsert("Users", data);
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete("Tasks");
+    await queryInterface.bulkDelete("Users");
   },
 };

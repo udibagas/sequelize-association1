@@ -6,11 +6,7 @@ module.exports = {
     await queryInterface.addColumn("Tasks", "UserId", {
       type: Sequelize.INTEGER,
       allowNull: false,
-      references: {
-        model: "Users", //! masukkan nama table
-      },
-      onDelete: "RESTRICT",
-      onUpdate: "RESTRICT",
+      references: { model: "Users" }, // yang dimasukkan adalah nama table
     });
   },
 

@@ -9,21 +9,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      firstName: {
-        type: Sequelize.STRING(30),
-        allowNull: false,
-      },
-      lastName: {
-        type: "VARCHAR(30)",
-      },
-      dateOfBirth: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-      gender: {
-        type: "CHAR(1)",
-        allowNull: false,
-      },
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -32,18 +17,25 @@ module.exports = {
           model: {
             tableName: "Users",
           },
-          key: "id",
-        },
-        onDelete: "cascade",
-        onUpdate: "cascade",
+          key: "id", // nama column
+        }, // REFERENCES "Users" (id)
+        onDelete: "CASCADE", // ON DELETE CASCADE
+        onUpdate: "CASCADE", // ON UPDATE CASCADE
       },
-      createdAt: {
+      firstName: {
+        type: Sequelize.STRING(30),
         allowNull: false,
-        type: Sequelize.DATE,
       },
-      updatedAt: {
-        allowNull: false,
+      lastName: {
+        type: Sequelize.STRING,
+      },
+      dateOfBirth: {
         type: Sequelize.DATE,
+        allowNull: false,
+      },
+      gender: {
+        type: "CHAR(1)",
+        allowNull: false,
       },
     });
   },
